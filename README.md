@@ -324,8 +324,8 @@ Create an interface called ScreenSpec. This will define 3 methods:
 Create a class called Screen that implements ScreenSpec. Add three fields
 
 -   String resolution
--   int refreshrate
--   int responsetime
+-   int refresh rate
+-   int response time
 
 Complete the methods from the ScreenSpec interface.
 
@@ -381,7 +381,7 @@ The class will have the following methods defined:
 -   private String inputName()
 -   private boolean checkName(StringBuilder name)
 
-The setName() method will be called from the constructor which will use inputName() to get a name (firstname and surname) as a single input from the user before checkName() is used to make sure that the name supplied has a space in it.
+The setName() method will be called from the constructor which will use inputName() to get a name (first name and surname) as a single input from the user before checkName() is used to make sure that the name supplied has a space in it.
 
 If a valid name is given then createEmployeeCode() is used to take the first initial from the first name and add it to the full surname to create the code. If there is no space then default value of guest is to be used as the value for code.
 
@@ -470,7 +470,7 @@ Documentation Expectations
 
 **Javadoc Comments**
 
-Javadoc sytle comments for all java files that includes brief and author.
+Javadoc style comments for all java files that includes brief and author.
 
 Javadoc comments for all classes, fields, and methods that includes brief, param, and return if applicable.
 
