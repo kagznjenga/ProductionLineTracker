@@ -2,13 +2,48 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * public class controller.
  */
 public class Controller {
+    private final String JDBC_DRIVER = "org.h2.Driver";
+    private final String DB_URL = "jdbc:h2:./res/ProductDatabase";
+
+    private final String USER = "";
+    private final String PASS = "";
+    private Connection conn = null;
+    private Statement stmt = null;
+
+    /**
+     *@exception ClassNotFoundException if connection is not established.
+     */
+    public void setConn() {
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+            System.out.println("Database Connection Established.");
+
+            stmt.close();
+            conn.close();
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * private class fields
@@ -20,12 +55,10 @@ public class Controller {
     private ComboBox<Integer> myCmbBox;
 
     @FXML
-    private Button btn_recordProduction;
+    private ChoiceBox<String> myChoiceBox;
 
     @FXML
-    void chooseQuality(MouseEvent event) {
-
-    }
+    private Button btn_recordProduction;
 
     /**
      * @param event Executes an action when a mouse event takes place
@@ -49,17 +82,13 @@ public class Controller {
     @FXML
     public void initialize() {
         myCmbBox.setEditable(true);
-        myCmbBox.getItems().add(1);
-        myCmbBox.getItems().add(2);
-        myCmbBox.getItems().add(3);
-        myCmbBox.getItems().add(4);
-        myCmbBox.getItems().add(5);
-        myCmbBox.getItems().add(6);
-        myCmbBox.getItems().add(7);
-        myCmbBox.getItems().add(8);
-        myCmbBox.getItems().add(9);
-        myCmbBox.getItems().add(10);
+        for(int i = 1; i <= 10; i++){
+            myCmbBox.getItems().add(i);
+        }
         myCmbBox.getSelectionModel().selectFirst();
+        for(ItemType item : ItemType.values()){
+            myChoiceBox.getItems().add(item + "'" + item.code + "'");
+        }
     }
 
 }

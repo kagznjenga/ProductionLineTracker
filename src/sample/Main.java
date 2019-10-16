@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 
 /*
@@ -42,38 +43,20 @@ public class Main extends Application {
      * @param args contains supplied command-line arguments as an array.
      */
     public static void main(String[] args) {
-        final String JDBC_DRIVER = "org.h2.Driver";
-        final String DB_URL = "jdbc:h2:./res/ProductDatabase";
-
-
-        final String USER = "";
-        final String PASS = "";
-        Connection conn = null;
-        Statement stmt = null;
-
-        /**
-         * try block for checking connection
-         */
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
-            System.out.println("Database Connection Established.");
-
-            stmt.close();
-            conn.close();
-
-            /**
-             * catch block for exception
-             */
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-
-            /**
-             * catch block for exception
-             */
-        } catch (SQLException e) {
-            e.printStackTrace();
+        AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
+                "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+        Screen newScreen = new Screen("720x480", 40, 22);
+        MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
+                MonitorType.LCD);
+        ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
+        productList.add(newAudioProduct);
+        productList.add(newMovieProduct);
+        for (MultimediaControl p : productList) {
+            System.out.println(p);
+            p.play();
+            p.stop();
+            p.next();
+            p.previous();
         }
 
         launch(args);
