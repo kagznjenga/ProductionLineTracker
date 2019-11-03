@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 
 /*
  * @author Samuel Njenga.
- * @brief This file is the entry point for running the program (driver class) and sets the stage
- * of the user interface.
+ * @brief This file is the entry point for running the program (driver class) and sets the
+ * stage of the user interface.
  * */
 
 /**
