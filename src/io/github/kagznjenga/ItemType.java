@@ -14,7 +14,7 @@ public enum ItemType {
   AUDIO_MOBILE("AM"),   //         *
   VISUAL_MOBILE("VM");  //         *
 
-  public String code;     // Class field.
+  private final String code;     // Class field.
 
   /**
    * Sets the code field to a string value from the elements.

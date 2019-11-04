@@ -10,8 +10,8 @@ package io.github.kagznjenga;
  */
 public class MoviePlayer extends Product implements MultimediaControl {
 
-  private Screen screen;
-  private MonitorType monitorType;
+  private final Screen screen;
+  private final MonitorType monitorType;
 
   /**
    * The class constructor that is called when the corresponding number of arguments are passed.

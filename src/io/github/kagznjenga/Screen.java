@@ -11,9 +11,9 @@ package io.github.kagznjenga;
  */
 public class Screen implements ScreenSpec {
 
-  private String resolution;      // Class fields.
-  private int refreshrate;        // Class fields.
-  private int responsetime;       // Class fields.
+  private final String resolution;      // Class fields.
+  private final int refreshrate;        // Class fields.
+  private final int responsetime;       // Class fields.
 
   /**
    * The class constructor that is called when the corresponding number of arguments are passed.

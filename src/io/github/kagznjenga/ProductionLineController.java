@@ -20,12 +20,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 
 /**
  * public class controller.
  */
+@SuppressWarnings("unchecked")
 public class ProductionLineController {
 
   /**
@@ -56,9 +57,13 @@ public class ProductionLineController {
    * private class fields.
    */
   @FXML
-  private Button addProduct;
+  public Button addProduct;
   @FXML
-  private Button recordProduction;
+  public Button recordProduction;
+  @FXML
+  private TextField nameValue;
+  @FXML
+  private TextField manValue;
   @FXML
   private ListView productListView;
   @FXML
@@ -66,7 +71,7 @@ public class ProductionLineController {
   @FXML
   private ComboBox<Integer> myCmbBox;
   @FXML
-  private ChoiceBox<String> myChoiceBox;
+  private ChoiceBox<ItemType> myChoiceBox;
   @FXML
   private TableView<Product> prodTableView;
   @FXML
@@ -77,26 +82,39 @@ public class ProductionLineController {
   private TableColumn<?, ?> prodType;
 
   private ObservableList<Product> productLine;
+  private String name;
+  private String manufacturer;
+  private ItemType type;
 
+  /**
+   * The addProductToList method adds a new product to the observable list when the Add Product
+   * button is pressed.
+   */
   @FXML
-  public void addProductToList(MouseEvent event) throws Exception {
-    productLine.add(new Widget("Galaxy", "Samsung", ItemType.AUDIO));
-    productListView.getItems().add(productLine);
+  public void addProductToList() {
+    name = nameValue.getText();
+    manufacturer = manValue.getText();
+    type = myChoiceBox.getValue();
+    productLine.add(new Widget(name, manufacturer, type));
+    productListView.getItems().add(productLine.get(0));
+    nameValue.clear();
+    manValue.clear();
+    myChoiceBox.getSelectionModel().clearSelection();
   }
 
   /**
    * The recordProduction method prints out details of the products created in the production log
    * text area.
-   *
-   * @param event A mouse event
    */
   @FXML
-  public void recordProduction(MouseEvent event) {
+  public void recordProduction() {
+    Product myProduct = new Widget(name, manufacturer, type);
     int itemCount = 1;
-    int numProduced = myCmbBox.getValue();  // this will come from the combobox in the UI
-    for (int productionRunProduct = 1; productionRunProduct <= numProduced;
+    int numProduced = myCmbBox.getSelectionModel()
+        .getSelectedIndex();  // this will come from the combobox in the UI
+    for (int productionRunProduct = 1; productionRunProduct < numProduced;
         productionRunProduct++) {
-      RecordProduction prodRecord = new RecordProduction(itemCount++);
+      RecordProduction prodRecord = new RecordProduction(myProduct, itemCount);
       // using the iterator as the product id for testing
       prodLogTextArea.appendText(prodRecord.toString() + "\n");
     }
@@ -109,7 +127,7 @@ public class ProductionLineController {
   @FXML
   public void initialize() {
     for (ItemType item : ItemType.values()) {
-      myChoiceBox.getItems().add(item + "'" + item.code + "'");
+      myChoiceBox.getItems().add(item);
     }
     myCmbBox.setEditable(true);
     for (int i = 1; i <= 10; i++) {

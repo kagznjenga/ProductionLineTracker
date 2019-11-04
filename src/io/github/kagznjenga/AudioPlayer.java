@@ -11,8 +11,8 @@ package io.github.kagznjenga;
  */
 public class AudioPlayer extends Product implements MultimediaControl {
 
-  private String audioSpecification;      // Class attribute.
-  private String mediaType;               // Class attribute.
+  private final String audioSpecification;      // Class attribute.
+  private final String mediaType;               // Class attribute.
 
   /**
    * The class constructor that is called when the corresponding number of arguments are passed.
