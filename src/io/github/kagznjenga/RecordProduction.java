@@ -14,6 +14,7 @@ class RecordProduction {
 
   private int productionNumber;      // Class attributes.
   private int productID;             //       *
+  private String prodName;
   private String serialNumber;       //       *
   private Date dateProduced;         //       *
 
@@ -37,22 +38,25 @@ class RecordProduction {
    */
   public RecordProduction(Product product, int itemCount) {
     String idNumber = String.format("%05d", itemCount);
+    productID = Integer.parseInt(idNumber);
+    productionNumber = itemCount;
     serialNumber =
         product.getManufacturer().substring(0, 3) + product.getType().getCode() + idNumber;
     dateProduced = new Date();
+    this.prodName = product.getName();
   }
 
   /**
    * A class constructor that has four parameters.
    *
    * @param productionNumber pass an integer value as an argument.
-   * @param productID        Pass an integer value as an argument.
+   * @param prodName         Pass a string value as an argument.
    * @param serialNumber     pass a string as an argument
    * @param dateProduced     pass a date type argument.
    */
-  public RecordProduction(int productionNumber, int productID, String serialNumber,
+  public RecordProduction(int productionNumber, String prodName, String serialNumber,
       Date dateProduced) {
-    this.productID = productID;
+    this.prodName = prodName;
     this.productionNumber = productionNumber;
     this.serialNumber = serialNumber;
     this.dateProduced = dateProduced;
@@ -113,6 +117,15 @@ class RecordProduction {
   }
 
   /**
+   * public getter for getting name.
+   *
+   * @return
+   */
+  public String getName() {
+    return prodName;
+  }
+
+  /**
    * public getter for accessing the serialNumber.
    *
    * @return return a string value.
@@ -137,7 +150,8 @@ class RecordProduction {
    */
   public String toString() {
     return String
-        .format("Prod. Num: %d Product ID: %d Serial Num: %s Date: %s", productionNumber, productID,
+        .format("Prod. Num: %s Product Name: %s Serial Num: %s Date: %s", productionNumber,
+            prodName,
             serialNumber, dateProduced);
   }
 }
