@@ -36,7 +36,7 @@ class RecordProduction {
    * @param product   pass a Product object as an argument.
    * @param itemCount pass an integer value as an argument.
    */
-  public RecordProduction(Product product, int itemCount) {
+  RecordProduction(Product product, int itemCount) {
     String idNumber = String.format("%05d", itemCount);
     productID = Integer.parseInt(idNumber);
     productionNumber = itemCount;
@@ -54,7 +54,7 @@ class RecordProduction {
    * @param serialNumber     pass a string as an argument
    * @param dateProduced     pass a date type argument.
    */
-  public RecordProduction(int productionNumber, String prodName, String serialNumber,
+  RecordProduction(int productionNumber, String prodName, String serialNumber,
       Date dateProduced) {
     this.prodName = prodName;
     this.productionNumber = productionNumber;
@@ -119,7 +119,7 @@ class RecordProduction {
   /**
    * public getter for getting name.
    *
-   * @return
+   * @return returns a string value.
    */
   public String getName() {
     return prodName;
@@ -130,7 +130,7 @@ class RecordProduction {
    *
    * @return return a string value.
    */
-  public String getSerialNum() {
+  String getSerialNum() {
     return serialNumber;
   }
 
@@ -139,7 +139,7 @@ class RecordProduction {
    *
    * @return return a date value.
    */
-  public Date getProdDate() {
+  Date getProdDate() {
     return dateProduced;
   }
 

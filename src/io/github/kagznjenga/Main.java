@@ -27,7 +27,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("ProductionLine.fxml"));
     primaryStage.setTitle("Production Line Tracker");
-    Scene scene = new Scene(root, 500, 450);
+    Scene scene = new Scene(root, 600, 400);
     scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
     primaryStage.setScene(scene);
     primaryStage.show();

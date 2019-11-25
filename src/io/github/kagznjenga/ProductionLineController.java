@@ -36,8 +36,7 @@ import javafx.scene.input.MouseEvent;
 /**
  * public class controller that controls functionality for fxml elements.
  */
-@SuppressWarnings("unchecked")
-class ProductionLineController {
+public class ProductionLineController {
 
 
   /**
@@ -50,11 +49,11 @@ class ProductionLineController {
   @FXML
   public Button empAccount;
   @FXML
-  public TextField employeeName;
+  private TextField employeeName;
   @FXML
-  public PasswordField employeePassword;
+  private PasswordField employeePassword;
   @FXML
-  public TextArea employeeTextArea;
+  private TextArea employeeTextArea;
   @FXML
   private TextField nameValue;
   @FXML
@@ -86,7 +85,7 @@ class ProductionLineController {
   /**
    * Sets up the connection to the database.
    */
-  public void setConn() {
+  private void setConn() {
     try {
       String jdbcDriver = "org.h2.Driver";
       Class.forName(jdbcDriver);
@@ -197,10 +196,10 @@ class ProductionLineController {
     String productQuery = "INSERT INTO "
         + "PRODUCTIONRECORD(product_name, serial_num, date_produced, username) VALUES (?,?,?,?)";
     PreparedStatement addRecordToDb = conn.prepareStatement(productQuery);
-    for (int i = 0; i < productionArray.size(); i++) {
-      addRecordToDb.setString(1, productionArray.get(i).getName());
-      addRecordToDb.setString(2, productionArray.get(i).getSerialNum());
-      addRecordToDb.setTimestamp(3, new Timestamp(productionArray.get(i).getProdDate().getTime()));
+    for (RecordProduction production : productionArray) {
+      addRecordToDb.setString(1, production.getName());
+      addRecordToDb.setString(2, production.getSerialNum());
+      addRecordToDb.setTimestamp(3, new Timestamp(production.getProdDate().getTime()));
       addRecordToDb.setString(4, employeeDetails.getUsername());
       addRecordToDb.executeUpdate();
     }
@@ -255,8 +254,8 @@ class ProductionLineController {
    * text area.
    */
   private void showProduction() {
-    for (int i = 0; i < prodRecordArray.size(); i++) {
-      prodLogTextArea.appendText(prodRecordArray.get(i).toString() + "\n");
+    for (RecordProduction production : prodRecordArray) {
+      prodLogTextArea.appendText(production.toString() + "\n");
     }
   }
 
@@ -265,7 +264,7 @@ class ProductionLineController {
    *
    * @throws SQLException Checks if the sql statement used is valid.
    */
-  public void employeeAccount() throws SQLException {
+  private void employeeAccount() throws SQLException {
     String employeeFullName = employeeName.getText();
     String employeePass = employeePassword.getText();
     employeeDetails = new Employee(employeeFullName, employeePass);

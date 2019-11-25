@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Class employee contains attributes and methods for employee objects.
  */
-public class Employee {
+class Employee {
 
   /**
    * private class fields.
@@ -22,18 +22,19 @@ public class Employee {
 
   /**
    * Employee class constructor with two parameters.
-   * @param name receives a string value as an argument.
+   *
+   * @param name     receives a string value as an argument.
    * @param password receives a string value as an argument.
    */
   Employee(String name, String password) {
-    StringBuilder sBName = new StringBuilder(name);
+    StringBuilder sbName = new StringBuilder(name);
     StringBuilder defaultUsername = new StringBuilder("default");
     StringBuilder defaultEmail = new StringBuilder("user");
-    this.name = sBName;
+    this.name = sbName;
     this.password = password;
-    if (checkName(sBName)) {
-      setUsername(sBName);
-      setEmail(sBName);
+    if (checkName(sbName)) {
+      setUsername(sbName);
+      setEmail(sbName);
     } else {
       setUsername(defaultUsername);
       setEmail(defaultEmail);
@@ -47,6 +48,7 @@ public class Employee {
 
   /**
    * CheckName method  splits the string value parameter.
+   *
    * @param name receives a string builder value as an argument.
    * @return returns a boolean value.
    */
@@ -57,6 +59,7 @@ public class Employee {
 
   /**
    * Setusername method has one parameter and sets the username.
+   *
    * @param name receives a string builder value as an argument.
    */
   private void setUsername(StringBuilder name) {
@@ -70,6 +73,7 @@ public class Employee {
 
   /**
    * The setEmail method has one parameter and sets the email.
+   *
    * @param name receives a string builder value as an argument.
    */
   private void setEmail(StringBuilder name) {
@@ -83,6 +87,7 @@ public class Employee {
 
   /**
    * isValidPassword method has one parameter and checks if password entered is valid.
+   *
    * @param password receives a string value as an argument.
    * @return returns a boolean value.
    */
@@ -94,6 +99,7 @@ public class Employee {
 
   /**
    * getName method of string builder type.
+   *
    * @return returns a string builder value.
    */
   public StringBuilder getName() {
@@ -102,6 +108,7 @@ public class Employee {
 
   /**
    * getPassword method of String type.
+   *
    * @return returns a string value.
    */
   public String getPassword() {
@@ -110,27 +117,30 @@ public class Employee {
 
   /**
    * getUsername method of string type.
+   *
    * @return returns a string value.
    */
-  public String getUsername() {
+  String getUsername() {
     return username;
   }
 
   /**
    * getEmail method of string type.
+   *
    * @return returns a string value.
    */
-  public String getEmail() {
+  String getEmail() {
     return email;
   }
 
   /**
    * Class toString method outputs the data as set in the string formatter.
+   *
    * @return returns a string value.
    */
   public String toString() {
-    return String.format(
-        "Employee Details" + "\nName : " + name + "\nUsername : " + username + "\nEmail : " + email
-            + "\nInitial Password : " + password);
+    return "Employee Details" + "\nName : " + name + "\nUsername : " + username + "\nEmail : "
+        + email
+        + "\nInitial Password : " + password;
   }
 }
