@@ -418,7 +418,7 @@ Update the TestProductionLine class to use the toString() method to display the 
 
 **Java Documentation**
 
-[JavaDocument](http://localhost:63342/ProductionLineTracker/docs/index.html?_ijt=f1791g72mnp0bsdmar5d8jv9f9)
+[JavaDocument](https://kagznjenga.github.io/ProductionLineTracker/docs/index.html)
 
 
 
