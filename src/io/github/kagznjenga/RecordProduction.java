@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * The RecordProduction class contains data and functionality for keeping track of production.
  */
-class RecordProduction {
+public class RecordProduction {
 
   private int productionNumber;      // Class attributes.
   private int productID;             //       *

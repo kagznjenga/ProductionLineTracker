@@ -137,6 +137,7 @@ public class ProductionLineController {
    */
   @FXML
   public void addProductToDB() throws SQLException {
+    productListView.getItems().clear();
     String name = nameValue.getText();
     String manufacturer = manValue.getText();
     ItemType type = myChoiceBox.getValue();
@@ -171,7 +172,9 @@ public class ProductionLineController {
       Product productFromDB = new Widget(nameFromDb, manFromDb, typeFromDb);
       // save to observable list
       productLine.add(productFromDB);
-      productListView.getItems().add(productLine.get(productLineIndex++));
+      for (Product products : productLine) {
+        productListView.getItems().add(products);
+      }
     }
   }
 

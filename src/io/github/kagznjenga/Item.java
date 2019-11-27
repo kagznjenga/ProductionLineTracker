@@ -8,7 +8,7 @@ package io.github.kagznjenga;
 /**
  * Item interface whose methods are implemented by other classes.
  */
-interface Item {
+public interface Item {
 
   /**
    * Method for accessing ID value.

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Class employee contains attributes and methods for employee objects.
  */
-class Employee {
+public class Employee {
 
   /**
    * private class fields.

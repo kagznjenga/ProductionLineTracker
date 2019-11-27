@@ -8,7 +8,7 @@ package io.github.kagznjenga;
 /**
  * Interface for screen specification that is implemented by the screen class.
  */
-interface ScreenSpec {
+public interface ScreenSpec {
 
   /**
    * Accessor for resolution value.

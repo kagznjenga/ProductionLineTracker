@@ -8,7 +8,7 @@ package io.github.kagznjenga;
 /**
  * Multimedia interface class with methods that are implemented by other classes.
  */
-interface MultimediaControl {
+public interface MultimediaControl {
 
   /**
    * Play function.
