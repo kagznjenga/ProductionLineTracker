@@ -6,6 +6,7 @@ package io.github.kagznjenga;
  * database.
  * */
 
+import java.awt.HeadlessException;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -242,27 +243,39 @@ public class ProductionLineController {
     Product selectFromList = (Product) productListView.getSelectionModel().getSelectedItem();
     String quantity = String.valueOf(myCmbBox.getValue());
     int numProduced = Integer.parseInt(quantity);  // this will come from the combobox in the UI
-    ArrayList<RecordProduction> myProductRecords = new ArrayList();
-    for (int productionRunProduct = 0; productionRunProduct < numProduced;
-        productionRunProduct++) {
-      RecordProduction prodRecord = new RecordProduction(selectFromList, productionRunProduct);
-      myProductRecords.add(prodRecord);
-    }
     try {
-      if (employeeDetails.getUsername().isEmpty() && employeeDetails.getPassword()
-          .isEmpty()) {
+      if (selectFromList.equals("null")) {
         throw new NullPointerException();
       } else {
-        addToProductionDB(myProductRecords);
-        loadProductionLog();
-        showProduction();
+        ArrayList<RecordProduction> myProductRecords = new ArrayList();
+        for (int productionRunProduct = 0; productionRunProduct < numProduced;
+            productionRunProduct++) {
+          RecordProduction prodRecord = new RecordProduction(selectFromList, productionRunProduct);
+          myProductRecords.add(prodRecord);
+        }
+        try {
+          if (employeeDetails.getUsername().isEmpty() && employeeDetails.getPassword()
+              .isEmpty()) {
+            throw new NullPointerException();
+          } else {
+            addToProductionDB(myProductRecords);
+            loadProductionLog();
+            showProduction();
+          }
+        } catch (NullPointerException e) {
+          JFrame frame = new JFrame();
+          JOptionPane.showMessageDialog(frame.getContentPane(),
+              "Employee account not detected. Please enter information in employee tab to "
+                  + "record production.",
+              "Account needed",
+              JOptionPane.ERROR_MESSAGE);
+        }
       }
     } catch (NullPointerException e) {
       JFrame frame = new JFrame();
       JOptionPane.showMessageDialog(frame.getContentPane(),
-          "Employee account not detected. Please enter information in employee tab to "
-              + "record production.",
-          "Account needed",
+          "Please select an item from the list view.",
+          "Product not selected",
           JOptionPane.ERROR_MESSAGE);
     }
   }
