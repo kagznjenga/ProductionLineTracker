@@ -423,4 +423,4 @@ Update the TestProductionLine class to use the toString() method to display the 
 
 **Program's Class Diagrams**
 
-[ProductionLine Class Diagrams](https://github.com/kagznjenga/ProductionLineTracker/blob/master/src/io/github/kagznjenga/Package%20kagznjenga.png?raw=true)
+![ProductionLine Class Diagrams](https://github.com/kagznjenga/ProductionLineTracker/blob/master/src/io/github/kagznjenga/Class%20Diagram.jpg)
