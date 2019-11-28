@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * Class employee contains attributes and methods for employee objects.
+ * Class Employee contains attributes and methods for employee objects.
  */
 public class Employee {
 
