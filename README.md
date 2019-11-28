@@ -427,4 +427,4 @@ Update the TestProductionLine class to use the toString() method to display the 
 
 **Database Visualization**
 
-![ProductionLine Database Diagram](https://github.com/kagznjenga/ProductionLineTracker/blob/master/src/io/github/kagznjenga/Databse%20Visualization.jpg)
+![ProductionLine Database Diagram](https://github.com/kagznjenga/ProductionLineTracker/blob/master/src/io/github/kagznjenga/Database%20Visualization.jpg)
