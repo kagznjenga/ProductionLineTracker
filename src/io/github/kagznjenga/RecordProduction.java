@@ -16,7 +16,7 @@ public class RecordProduction {
   private int productID;             //       *
   private String prodName;
   private String serialNumber;       //       *
-  private Date dateProduced;         //       *
+  private final Date dateProduced;         //       *
 
   /**
    * A class constructor that accepts one argument.
@@ -87,15 +87,6 @@ public class RecordProduction {
    */
   public void setSerialNum(String serialNumber) {
     this.serialNumber = serialNumber;
-  }
-
-  /**
-   * public setter for setting the date value.
-   *
-   * @param dateProduced pass a date as an argument.
-   */
-  public void setProdDate(Date dateProduced) {
-    this.dateProduced = dateProduced;
   }
 
   /**

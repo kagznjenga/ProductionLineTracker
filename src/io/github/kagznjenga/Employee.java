@@ -6,6 +6,8 @@ package io.github.kagznjenga;
  */
 
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * Class employee contains attributes and methods for employee objects.
@@ -15,7 +17,7 @@ public class Employee {
   /**
    * private class fields.
    */
-  private StringBuilder name;
+  private final StringBuilder name;
   private String username;
   private String password;
   private String email;
@@ -32,16 +34,28 @@ public class Employee {
     StringBuilder defaultEmail = new StringBuilder("user");
     this.name = sbName;
     this.password = password;
+    JFrame frame = new JFrame();
     if (checkName(sbName)) {
       setUsername(sbName);
       setEmail(sbName);
     } else {
+      JOptionPane.showMessageDialog(frame.getContentPane(),
+          "Enter first and last name to create custom username and email\n"
+              + "Currently set to default values.",
+          "Default Values Created",
+          JOptionPane.ERROR_MESSAGE);
       setUsername(defaultUsername);
       setEmail(defaultEmail);
     }
     if (isValidPassword(password)) {
       this.password = password;
     } else {
+      JOptionPane.showMessageDialog(frame.getContentPane(),
+          "A valid password must contain an uppercase and lowercase letter and a special "
+              + "character\n"
+              + "Currently set to default password.",
+          "Default Value Created",
+          JOptionPane.ERROR_MESSAGE);
       this.password = "pw";
     }
   }

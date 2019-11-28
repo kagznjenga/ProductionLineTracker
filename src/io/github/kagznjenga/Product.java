@@ -106,7 +106,7 @@ public abstract class Product implements Item {
    * @return return a string value.
    */
   public String toString() {
-    return String.format("Name: %s\nManufacturer: %s\nType: %s", name, manufacturer, type);
+    return String.format("Name: %s %nManufacturer: %s %nType: %s", name, manufacturer, type);
   }
 }
 

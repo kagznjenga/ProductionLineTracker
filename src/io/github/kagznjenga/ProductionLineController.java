@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
@@ -32,10 +32,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * public class controller that controls functionality for fxml elements.
  */
+@SuppressWarnings("unchecked")
 public class ProductionLineController {
 
 
@@ -48,6 +51,8 @@ public class ProductionLineController {
   public Button recordProduction;
   @FXML
   public Button empAccount;
+  @FXML
+  public Label threeLetterName;
   @FXML
   private TextField employeeName;
   @FXML
@@ -79,8 +84,8 @@ public class ProductionLineController {
   private Statement stmt;
   private ObservableList<Product> productLine;
   private ArrayList<RecordProduction> prodRecordArray;
-  private int productLineIndex = 0;
   private Employee employeeDetails;
+
 
   /**
    * Sets up the connection to the database.
@@ -105,7 +110,6 @@ public class ProductionLineController {
 
     } catch (ClassNotFoundException | SQLException e) {
       e.printStackTrace();
-
     }
   }
 
@@ -137,20 +141,37 @@ public class ProductionLineController {
    */
   @FXML
   public void addProductToDB() throws SQLException {
-    productListView.getItems().clear();
     String name = nameValue.getText();
     String manufacturer = manValue.getText();
     ItemType type = myChoiceBox.getValue();
-    String productQuery = "INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER) VALUES (?,?,?)";
-    PreparedStatement addProdToDb = conn.prepareStatement(productQuery);
-    addProdToDb.setString(1, name);
-    addProdToDb.setString(2, type.toString());
-    addProdToDb.setString(3, manufacturer);
-    addProdToDb.executeUpdate();
-    nameValue.clear();
-    manValue.clear();
-    myChoiceBox.getSelectionModel().clearSelection();
-    loadProductList();
+
+    if (!name.trim().isEmpty() && !manufacturer.trim().isEmpty() && !String
+        .valueOf(type).equals("null")) {
+      if (manufacturer.length() >= 3) {
+        threeLetterName.setText("");
+        String productQuery = "INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER) VALUES (?,?,?)";
+        PreparedStatement addProdToDb = conn
+            .prepareStatement(productQuery, Statement.RETURN_GENERATED_KEYS);
+        addProdToDb.setString(1, name);
+        addProdToDb.setString(2, String.valueOf(type));
+        addProdToDb.setString(3, manufacturer);
+        addProdToDb.executeUpdate();
+        nameValue.clear();
+        manValue.clear();
+        myChoiceBox.getSelectionModel().clearSelection();
+        productLine.clear();
+        loadProductList();
+        addProdToDb.close();
+      } else {
+        threeLetterName.setText("Name must be more than 3 letters");
+      }
+    } else {
+      JFrame frame = new JFrame();
+      JOptionPane.showMessageDialog(frame.getContentPane(),
+          "Name, Manufacturer and Item Type cannot be empty. Please enter/select values",
+          "Empty fields",
+          JOptionPane.ERROR_MESSAGE);
+    }
   }
 
   /**
@@ -172,10 +193,12 @@ public class ProductionLineController {
       Product productFromDB = new Widget(nameFromDb, manFromDb, typeFromDb);
       // save to observable list
       productLine.add(productFromDB);
+      productListView.getItems().clear();
       for (Product products : productLine) {
         productListView.getItems().add(products);
       }
     }
+    rs.close();
   }
 
   /**
@@ -198,7 +221,8 @@ public class ProductionLineController {
   private void addToProductionDB(ArrayList<RecordProduction> productionArray) throws SQLException {
     String productQuery = "INSERT INTO "
         + "PRODUCTIONRECORD(product_name, serial_num, date_produced, username) VALUES (?,?,?,?)";
-    PreparedStatement addRecordToDb = conn.prepareStatement(productQuery);
+    PreparedStatement addRecordToDb = conn
+        .prepareStatement(productQuery, Statement.RETURN_GENERATED_KEYS);
     for (RecordProduction production : productionArray) {
       addRecordToDb.setString(1, production.getName());
       addRecordToDb.setString(2, production.getSerialNum());
@@ -206,6 +230,7 @@ public class ProductionLineController {
       addRecordToDb.setString(4, employeeDetails.getUsername());
       addRecordToDb.executeUpdate();
     }
+    addRecordToDb.close();
   }
 
   /**
@@ -223,9 +248,23 @@ public class ProductionLineController {
       RecordProduction prodRecord = new RecordProduction(selectFromList, productionRunProduct);
       myProductRecords.add(prodRecord);
     }
-    addToProductionDB(myProductRecords);
-    loadProductionLog();
-    showProduction();
+    try {
+      if (employeeDetails.getUsername().isEmpty() && employeeDetails.getPassword()
+          .isEmpty()) {
+        throw new NullPointerException();
+      } else {
+        addToProductionDB(myProductRecords);
+        loadProductionLog();
+        showProduction();
+      }
+    } catch (NullPointerException e) {
+      JFrame frame = new JFrame();
+      JOptionPane.showMessageDialog(frame.getContentPane(),
+          "Employee account not detected. Please enter information in employee tab to "
+              + "record production.",
+          "Account needed",
+          JOptionPane.ERROR_MESSAGE);
+    }
   }
 
   /**
@@ -250,6 +289,7 @@ public class ProductionLineController {
       // save to observable list
       prodRecordArray.add(prodLogFromDB);
     }
+    rs.close();
   }
 
   /**
@@ -257,8 +297,11 @@ public class ProductionLineController {
    * text area.
    */
   private void showProduction() {
+    prodLogTextArea.clear();
     for (RecordProduction production : prodRecordArray) {
-      prodLogTextArea.appendText(production.toString() + "\n");
+      prodLogTextArea.setWrapText(true);
+      prodLogTextArea
+          .appendText(production.toString() + "\n");
     }
   }
 
@@ -273,7 +316,8 @@ public class ProductionLineController {
     employeeDetails = new Employee(employeeFullName, employeePass);
 
     String productQuery = "INSERT INTO EMPLOYEE(NAME, PASSWORD, USERNAME, EMAIL) VALUES (?,?,?,?)";
-    PreparedStatement addEmployee = conn.prepareStatement(productQuery);
+    PreparedStatement addEmployee = conn
+        .prepareStatement(productQuery, Statement.RETURN_GENERATED_KEYS);
     addEmployee.setString(1, employeeFullName);
     addEmployee.setString(2, employeePass);
     addEmployee.setString(3, employeeDetails.getUsername());
@@ -283,6 +327,7 @@ public class ProductionLineController {
     employeeName.clear();
     employeePassword.clear();
     employeeTextArea.appendText(employeeDetails.toString() + "\n\n");
+    addEmployee.close();
   }
 
   /**
